@@ -1,0 +1,41 @@
+name: 'JavaFX Test'
+description: 'Run Maven tests with Xvfb for JavaFX projects'
+author: 'erwanclx'
+
+inputs:
+  java-version:
+    description: 'Java version to install'
+    required: false
+    default: '21'
+
+  project-dir:
+    description: 'Path to the project directory containing pom.xml'
+    required: false
+    default: '.'
+
+  maven-args:
+    description: 'Additional arguments to pass to Maven'
+    required: false
+    default: 'test'
+
+  screen-size:
+    description: 'Screen size for Xvfb'
+    required: false
+    default: '1024x768x24'
+
+runs:
+  using: "composite"
+  steps:
+  - name: Set up JDK
+    uses: actions/setup-java@v3
+    with:
+      distribution: 'temurin'
+      java-version: ${{ inputs.java-version }}
+
+  - name: Install dependencies
+    run: sudo apt-get update && sudo apt-get install -y libgl1 xvfb libgtk-3-0
+    shell: bash
+
+  - name: Run Maven in virtual display
+    run: xvfb-run --auto-servernum --server-args="-screen 0 ${{ inputs.screen-size }}" mvn ${{ inputs.maven-args }} -f ${{ inputs.project-dir }}/pom.xml
+    shell: bash
