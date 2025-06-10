@@ -1,4 +1,4 @@
-# JavaFX Test Action ![GitHub release](https://img.shields.io/github/v/release/erwanclx/javafx-test?label=release)
+# JavaFX Test Action ![GitHub release](https://img.shields.io/github/v/release/erwanclx/maven-javafx-testing?label=release)
 
 This GitHub Action runs JavaFX Maven tests using a virtual display (`Xvfb`) so they can execute in a CI environment like Ubuntu runners.
 
